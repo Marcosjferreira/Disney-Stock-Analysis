@@ -1,0 +1,644 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!-- <<< Corrected Title Order >>> -->
+    <title>Walt Disney Company (DIS) Stock Analysis Report</title>
+    <style>
+        body { font-family: 'Segoe UI', Arial, sans-serif; line-height: 1.6; color: #333; max-width: 1200px; margin: 20px auto; padding: 0 20px; background-color: #f8f9fa; }
+        .header { text-align: center; padding-bottom: 15px; border-bottom: 3px solid #1a73e8; margin-bottom: 25px; }
+        /* <<< Corrected Title Order >>> */
+        h1 { color: #1a73e8; margin-bottom: 5px; font-weight: 600;}
+        h2 { color: #1967d2; border-bottom: 2px solid #e8f0fe; padding-bottom: 8px; margin-top: 35px; font-weight: 600; }
+        h3 { color: #333; margin-top: 25px; font-weight: 600; border-bottom: 1px dashed #ccc; padding-bottom: 3px; }
+        h4 { color: #1967d2; margin-top: 20px; font-weight: 600; }
+        .recommendation { padding: 15px 20px; border-radius: 8px; font-weight: bold; font-size: 1.2em; text-align: center; margin: 25px 0; border: 1px solid; }
+        .buy { background-color: #e6f4ea; border-color: #b7e1c7; color: #1e4620; }
+        .holdneutral { background-color: #fff8e1; border-color: #ffecb3; color: #6d4c0d; }
+        .avoidsell { background-color: #fdecea; border-color: #f5c6cb; color: #5a1620; }
+        .error { background-color: #fff3cd; border-color: #ffeeba; color: #856404; }
+        .summary { font-size: 1.05em; margin-bottom: 20px; padding: 15px; background-color: #e8f0fe; border-left: 5px solid #1a73e8; border-radius: 5px; }
+        .qualitative-rec { background-color: #e6f4ea; border-left-color: #188038; margin-top: 20px; padding: 15px; border-radius: 5px; } /* Style for PDF's recommendation */
+        .flex-container { display: flex; flex-wrap: wrap; gap: 20px; margin-bottom: 20px; }
+        .metrics-box { flex: 1 1 280px; background-color: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); border: 1px solid #ddd;}
+        .metrics-title { font-size: 1.15em; font-weight: bold; margin-bottom: 15px; color: #1967d2; border-bottom: 1px solid #eee; padding-bottom: 8px;}
+        .metric-row { display: flex; justify-content: space-between; padding: 7px 0; border-bottom: 1px dotted #eee; font-size: 0.95em;}
+        .metric-row:last-child { border-bottom: none; }
+        .metric-row span:first-child { color: #5f6368; }
+        .metric-row span:last-child { font-weight: 600; }
+        .positive { color: #188038; font-weight: 600; }
+        .negative { color: #d93025; font-weight: 600; }
+        .neutral { color: #5f6368; }
+        .chart-container { margin: 20px 0; text-align: center; background-color: #fff; padding: 15px; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); border: 1px solid #ddd;}
+        .chart-img { max-width: 100%; height: auto; margin-bottom: 10px; border: 1px solid #eee; border-radius: 4px;}
+        .chart-caption { font-size: 0.9em; color: #5f6368; margin-top: 5px; }
+        table { width: 100%; border-collapse: collapse; margin: 25px 0; font-size: 0.9em; background-color: #fff; box-shadow: 0 1px 3px rgba(0,0,0,0.1); border-radius: 8px; overflow: hidden; border: 1px solid #ddd;}
+        th, td { padding: 10px 14px; border-bottom: 1px solid #ddd; text-align: left; }
+        th { background-color: #e8f0fe; color: #1967d2; font-weight: 600; text-transform: uppercase; font-size: 0.85em; letter-spacing: 0.5px; }
+        tr:nth-child(even) { background-color: #f8f9fa; }
+        tr:hover { background-color: #f1f3f4; }
+        .rationale-list, .factors-list, .takeaways-list, .swot-list { list-style: none; padding-left: 5px; }
+        .rationale-list li { background-color: #fff; margin-bottom: 8px; padding: 10px 15px; border-radius: 5px; border-left: 4px solid #1a73e8; font-size: 0.95em; box-shadow: 0 1px 2px rgba(0,0,0,0.05);}
+        .takeaways-list li, .swot-list li, .trends-list li { list-style: disc; margin-left: 25px; margin-bottom: 10px; } /* Use standard bullets */
+        .pros-cons-table { margin-top: 20px; }
+        .pros-cons-table td { vertical-align: top; padding: 15px; }
+        .pros-cons-table td:first-child { border-right: 1px solid #ddd; }
+        .pros-cons-table h4 { margin-top: 0; border-bottom: none; }
+        .education-section { background-color: #f0f4f8; padding: 20px; margin-top: 30px; border-radius: 8px; border: 1px solid #d1d9e0; }
+        .education-section h3 { border-bottom: 1px solid #a6b7c8; color: #0d47a1; }
+        .education-section p { margin-bottom: 15px; font-size: 0.95em;}
+        .education-section .metric-explainer, .education-section .chart-explainer { margin-bottom: 25px; padding-left: 15px; border-left: 3px solid #a6b7c8; }
+        .education-section strong { color: #1967d2; }
+        .disclaimer { font-size: 0.85em; font-style: italic; margin-top: 40px; padding: 15px; background-color: #f1f1f1; border-radius: 5px; text-align: center; color: #5f6368; border-top: 1px solid #ddd;}
+        .note {font-size: 0.85em; color: #5f6368; font-style: italic;}
+    </style>
+</head>
+<body>
+    <div class="header">
+        <!-- <<< Corrected Title Order >>> -->
+        <h1>Walt Disney Company (DIS) Stock Analysis Report</h1>
+        <p>Generated on: March 31, 2025</p>
+    </div>
+
+    <!-- <<< NEW: Introduction Section from PDF >>> -->
+<h2>Introduction</h2>
+<p>The Walt Disney Company, a global leader in the media and entertainment industry, has demonstrated remarkable resilience and adaptability in the face of unprecedented challenges, particularly during the COVID-19 pandemic. This report provides a comprehensive analysis of Disney's financial performance, competitive positioning, and the broader industry trends from approximately 2020 to the present. By examining Disney's financial health, competitive landscape, and emerging industry trends alongside current quantitative stock data, this report aims to offer a holistic view to aid in making a long-term investment decision.</p>
+
+    <!-- <<< NEW: Executive Summary Section from PDF >>> -->
+    <h2>Executive Summary & Key Takeaways</h2>
+    <p class="note">Insights below are based on an external analysis report covering 2020-2024.</p>
+    <ul class="takeaways-list">
+        <li><strong>Strong Financial Recovery:</strong> Disney has rebounded strongly from the COVID-19 pandemic, with revenue growth and profitability returning to pre-pandemic levels by 2024. Free cash flow and operating cash flow have also shown significant improvement, indicating strong financial health.</li>
+        <li><strong>Diversified Business Model:</strong> Disney's diversified revenue streams—spanning media networks, theme parks, studio entertainment, and streaming services (Disney+)—provide resilience against economic downturns and sector-specific challenges.</li>
+        <li><strong>Competitive Positioning:</strong> Disney remains a market leader in the entertainment industry, with a strong brand, extensive intellectual property (IP) library, and global reach. However, it faces intense competition from companies like Netflix, Comcast, and Warner Bros. Discovery.</li>
+        <li><strong>Streaming Growth:</strong> Disney+ has seen rapid growth, but profitability in the streaming segment remains a challenge. The company is focusing on subscriber retention and cost management to improve margins.</li>
+        <li><strong>Emerging Opportunities:</strong> Disney is well-positioned to capitalize on emerging markets (e.g., China, India), technological innovations (e.g., Al, AR/VR), and sustainability initiatives.</li>
+        <li><strong>Risks and Challenges:</strong> Disney faces risks from economic downturns, piracy, technological disruption, and high operating costs, particularly in its theme parks and content production.</li>
+    </ul>
+
+    <!-- <<< NEW: Pros and Cons Section from PDF >>> -->
+    <h2>Pros and Cons of Investing in Disney Stock</h2>
+    <table class="pros-cons-table">
+        <tr>
+            <td width="50%">
+                <h4>Pros</h4>
+                <ul>
+                    <li><strong>Strong Brand and IP:</strong> Disney owns iconic franchises like Marvel, Star Wars, and Pixar, which drive revenue across multiple segments.</li>
+                    <li><strong>Diversified Revenue Streams:</strong> Multiple business segments reduce reliance on any single revenue source.</li>
+                    <li><strong>Streaming Growth:</strong> Disney+ has rapidly grown its subscriber base, though profitability remains a work in progress.</li>
+                    <li><strong>Global Reach:</strong> Disney's theme parks and content distribution span the globe, providing exposure to international markets.</li>
+                    <li><strong>Strong Cash Flow:</strong> Improved cash flow generation in 2024 indicates financial stability and the ability to reinvest in growth.</li>
+                </ul>
+            </td>
+            <td width="50%">
+                <h4>Cons</h4>
+                <ul>
+                    <li><strong>High Operating Costs:</strong> Running theme parks and producing high-budget content are capital-intensive.</li>
+                    <li><strong>Dependence on Blockbusters:</strong> The film segment's success is heavily tied to the performance of a few blockbuster movies each year.</li>
+                    <li><strong>Streaming Competition:</strong> Intense competition from Netflix, Amazon Prime Video, and others could pressure margins.</li>
+                    <li><strong>Economic Sensitivity:</strong> Disney's revenue is vulnerable to economic downturns, as consumers may cut back on discretionary spending.</li>
+                    <li><strong>Piracy and IP Theft:</strong> Piracy remains a significant threat to Disney's revenue streams.</li>
+                </ul>
+            </td>
+        </tr>
+    </table>
+
+    <!-- Quantitative Recommendation Section -->
+    <h2>Quantitative Model Recommendation</h2>
+    <div class="recommendation buy">
+        RECOMMENDATION: BUY (Score: 4)
+    </div>
+    <div class="summary">
+        <p>Analysis suggests DIS presents a potential <strong>BUY</strong> opportunity for long-term investment (Score: 4 >= 4). The company shows positive fundamental indicators, and the current valuation/price level may offer a reasonable entry point.</p>
+        
+            <p style="font-weight: 600;">Current Price: $98.33
+             | Avg. Analyst Target: $126.00 
+             
+                | 52-Wk Range: $85.22 - $121.72
+             
+            </p>
+        
+    </div>
+    <h4>Model Rationale (Score Breakdown)</h4>
+    <!-- Final Rationale Section - Only show categories with reasons -->
+    <div class="flex-container"> 
+        <div class="metrics-box" style="margin-top: 10px;"> 
+            <h4 style="color: #188038; margin-top:0; border-bottom: none;">Supporting Reasons (Pro-BUY)</h4>
+
+            
+            
+                <strong>Company Strength:</strong>
+                <ul class="rationale-list" style="margin-top: 5px;">
+                    <li>Positive Profit Margin (6.1% > 3%).</li><li>Positive Return on Equity (5.9% > 5%).</li><li>Manageable Debt-to-Equity (0.42 < 0.7).</li>
+                </ul>
+                <br> 
+            
+
+            
+            
+                <strong>Price/Valuation Opportunity:</strong>
+                <ul class="rationale-list" style="margin-top: 5px;">
+                    <li>Forward P/E (19.1) seems reasonable (< 22).</li>
+                </ul>
+            
+
+            
+            
+        </div>
+
+        <div class="metrics-box" style="margin-top: 10px;"> 
+             <h4 style="color: #d93025; margin-top:0; border-bottom: none;">Cautionary Reasons (Con-BUY)</h4>
+
+             
+             
+                 <strong>Company Concerns:</strong>
+                <ul class="rationale-list" style="margin-top: 5px;">
+                    <li>Note: Beta (0.71) indicates lower volatility.</li>
+                </ul>
+                <br> 
+            
+
+             
+            
+
+             
+            
+        </div>
+    </div>
+    <!-- End of Final Rationale Section -->
+
+    <!-- Qualitative / Long-Term Recommendation Section (Keep as is) -->
+    <h2>Qualitative Investment Outlook & Strategy Considerations</h2>
+    <p class="note">The following outlook considers the quantitative data alongside broader business factors, drawing insights from an external analysis.</p>
+    <div class="qualitative-rec">
+        <strong>Overall Outlook: Buy (Cautious Optimism for Long-Term)</strong>
+        <p>Disney's strong financial recovery, diversified business model, and leadership in the entertainment industry make it an attractive long-term investment. The company's ability to generate strong cash flow, coupled with its extensive IP library and global reach, positions it well for future growth.</p>
+        <p>However, investors should be mindful of the following:</p>
+        <ol>
+            <li><strong>Streaming Profitability:</strong> While Disney+ has seen rapid growth, achieving sustained profitability in the streaming segment remains a key challenge. Monitor progress in reducing losses and improving margins.</li>
+            <li><strong>Economic Sensitivity:</strong> Revenue remains susceptible to economic downturns (theme parks, advertising). Consider the broader economic environment.</li>
+            <li><strong>Competition:</strong> Intense competition in streaming and entertainment could pressure market share and profitability.</li>
+            <li><strong>Valuation:</strong> Analyze the current stock price and P/E ratio relative to peers and growth prospects to determine if the valuation is reasonable.</li>
+        </ol>
+    </div>
+    <!-- End of Qualitative Section -->
+
+    <h4>Investor Profile Suggestions:</h4>
+     <ul>
+        <li><strong>Long-Term Investors:</strong> The analysis suggests Disney is a potentially strong consideration for those believing in the company's ability to capitalize on its brand, IP, and global reach. The streaming segment's growth potential and the resilience from diversification are key factors, despite current unprofitability in streaming.</li>
+        <li><strong>Short-Term Investors:</strong> The stock may experience volatility due to economic uncertainties and streaming competition. A cautious approach, focusing on quarterly earnings and subscriber metrics, is advised.</li>
+    </ul>
+
+
+    <!-- Key Metrics & Fundamentals Section -->
+    <h2>Key Metrics & Fundamentals (Live Data)</h2>
+    <div class="flex-container">
+        <!-- Price Performance Box -->
+        <div class="metrics-box">
+            <div class="metrics-title">Price & Performance</div>
+            <div class="metric-row"><span>Current Price</span><span>$98.33</span></div>
+            <div class="metric-row"><span>52-Week Range</span><span>$85.22 - $121.72</span></div>
+            <div class="metric-row"><span>Dist. from High</span><span class="negative">-19.2%</span></div>
+            <div class="metric-row"><span>Dist. from Low</span><span class="positive">15.4%</span></div>
+            <div class="metric-row"><span>YTD Return</span><span class="negative">-11.27%</span></div>
+            <div class="metric-row"><span>2-Year Return</span><span class="neutral">-0.58%</span></div>
+            <div class="metric-row"><span>Volatility (Ann.)</span><span>N/A%</span></div>
+            <div class="metric-row"><span>Beta (Calculated)</span><span>0.71</span></div>
+        </div>
+        <!-- Technical Indicators Box -->
+        <div class="metrics-box">
+            <div class="metrics-title">Technical Indicators</div>
+            <div class="metric-row"><span>50-Day MA</span><span>$107.08 <span class="negative">(Below)</span></span></div>
+            <div class="metric-row"><span>200-Day MA</span><span>$101.06 <span class="negative">(Below)</span></span></div>
+            <div class="metric-row"><span>RSI (14)</span><span><span class="neutral">51.5 (Neutral)</span></span></div>
+            <div class="metric-row"><span>Volume Trend (2W/3M)</span><span class="neutral">-8.0%</span></div>
+            <div class="metric-row"><span>Avg Vol (10d)</span><span>8,278,040</span></div>
+            <div class="metric-row"><span>Avg Vol (3m)</span><span>8,877,867</span></div>
+        </div>
+        <!-- Valuation Box -->
+        <div class="metrics-box">
+            <div class="metrics-title">Valuation</div>
+            <div class="metric-row"><span>Market Cap</span><span>$177.7 B</span></div>
+            <div class="metric-row"><span>Enterprise Value</span><span>$221.9 B</span></div>
+            <div class="metric-row"><span>Trailing P/E</span><span>31.92</span></div>
+            <div class="metric-row"><span>Forward P/E</span><span>19.09</span></div>
+            <div class="metric-row"><span>PEG Ratio</span><span>N/A</span></div>
+            <div class="metric-row"><span>Price/Sales (TTM)</span><span>1.92</span></div>
+            <div class="metric-row"><span>Price/Book</span><span>1.75</span></div>
+            <div class="metric-row"><span>EV/EBITDA</span><span>12.03</span></div>
+        </div>
+        <!-- Financial Health Box -->
+        <div class="metrics-box">
+            <div class="metrics-title">Financial Health</div>
+            <div class="metric-row"><span>Profit Margin</span><span>6.07%</span></div>
+            <div class="metric-row"><span>Operating Margin</span><span>16.78%</span></div>
+            <div class="metric-row"><span>Return on Equity</span><span>5.91%</span></div>
+            <div class="metric-row"><span>Return on Assets</span><span>4.25%</span></div>
+            <!-- <<< Corrected Debt/Equity Display >>> -->
+            <div class="metric-row"><span>Debt/Equity</span><span>42.4%</span></div>
+            <div class="metric-row"><span>Current Ratio</span><span>0.68</span></div>
+            <div class="metric-row"><span>Quick Ratio</span><span>0.55</span></div>
+             <!-- <<< Corrected Dividend Yield Display >>> -->
+            <div class="metric-row"><span>Fwd Dividend Yield</span><span>1.02%</span></div>
+        </div>
+    </div>
+
+    <!-- <<< REVISED: Educational Section for Metrics >>> -->
+    <div class="education-section">
+        <h3>Understanding Key Metrics (For Long-Term Investing)</h3>
+        <div class="metric-explainer">
+            <h4>Is the Stock Price Reasonable? (Valuation Ratios)</h4>
+            <p>These ratios help us decide if the stock price is high or low compared to the company's earnings, sales, or growth potential.</p>
+            <p><strong>P/E Ratio (Price-to-Earnings):</strong> Compares the stock price to the company's profit per share.
+                <ul><li>Lower P/E can mean the stock is cheaper relative to earnings (potentially good value).</li><li>Higher P/E can mean the stock is more expensive, possibly because investors expect high future growth (or it might be overvalued).</li></ul>
+                For context, Disney's Trailing P/E (based on past earnings) is <strong>31.9</strong>. The Forward P/E (based on expected future earnings) is <strong>19.1</strong>. Comparing these to competitors (like NFLX, CMCSA in the table below) and Disney's own history helps judge if the current P/E is reasonable.</p>
+            <p><strong>PEG Ratio:</strong> Compares the P/E Ratio to the company's expected earnings growth rate.
+                <ul><li>A PEG around or below 1 suggests the price is reasonable given the expected growth (generally desirable).</li><li>A PEG significantly above 1 or 2 might suggest the stock price is high compared to expected growth.</li></ul>
+                Disney's PEG is <strong>N/A</strong>. (Note: Growth estimates can vary).</p>
+            <p><strong>P/S Ratio (Price-to-Sales):</strong> Compares the stock price (via market cap) to the company's total revenue. Useful when earnings are volatile. Lower is generally seen as cheaper relative to sales. Disney's P/S is <strong>1.92</strong>.</p>
+            <p><strong>EV/EBITDA:</strong> Compares the company's total value (Enterprise Value) to its operational earnings (EBITDA). Lower values are often preferred, suggesting the company might be cheaper relative to its core earnings power.</p>
+        </div>
+        <div class="metric-explainer">
+            <h4>Is the Company Financially Healthy? (Health Ratios)</h4>
+            <p>These ratios help us understand if the company manages its money well and isn't taking on too much risk.</p>
+            <p><strong>Debt/Equity (D/E):</strong> Shows how much debt the company uses compared to its own funds (equity).
+                <ul><li>Lower D/E (e.g., below 100% or 1.0) generally means less financial risk.</li><li>Very high D/E means the company relies heavily on borrowing, which can be risky if business slows down.</li></ul>
+                Disney's D/E is <strong>42.4%</strong>.</p>
+            <p><strong>Current Ratio:</strong> Compares short-term assets (cash, receivables) to short-term debts.
+                <ul><li>Ratio > 1 means the company likely has enough liquid resources to cover immediate obligations (Generally good).</li><li>Ratio < 1 means short-term debts exceed easily accessible assets, which could indicate liquidity risk.</li></ul>
+                Disney's is <strong>0.68</strong>.</p>
+            <p><strong>Quick Ratio:</strong> Similar to Current Ratio, but excludes inventory (harder to sell quickly). A stricter test of immediate liquidity. Disney's is <strong>0.55</strong>.</p>
+        </div>
+         <div class="metric-explainer">
+            <h4>How Well is the Company Performing? (Profitability/Performance)</h4>
+            <p>These metrics show how good the company is at making money from its business.</p>
+            <p><strong>Profit Margin:</strong> How much profit the company keeps for every dollar of sales. Higher percentages are better, showing efficiency. Disney's margin is <strong>6.1%</strong>.</p>
+             <p><strong>ROE (Return on Equity):</strong> Shows how much profit the company generates using the money invested by shareholders. Higher percentages are generally better, indicating good returns for owners. Disney's ROE is <strong>5.9%</strong>.</p>
+             <p><strong>Dividend Yield:</strong> The annual dividend payment as a percentage of the stock price. This is direct cash return to shareholders. A higher yield means more income relative to price, but ensure the company can sustain the payments. Disney's forward yield is <strong>1.02%</strong>.</p>
+         </div>
+    </div>
+
+
+    <!-- Charts Section -->
+    <h2>Charts & Visual Analysis</h2>
+    <!-- Single Grid Image -->
+    <div class="chart-container" style="flex-basis: 100%;">
+        <img src="plots/main_charts_grid.png" alt="Main Charts Grid" class="chart-img">
+        <p class="chart-caption">Grid view: Price/MAs, RSI, Volume, MACD, Bollinger Bands, Quarterly Performance.</p>
+    </div>
+    <!-- Competitor Chart -->
+     <div class="chart-container" style="flex-basis: 100%;">
+        <img src="plots/competitor_comparison.png" alt="Competitor Comparison Chart" class="chart-img">
+        <p class="chart-caption">Comparison with Key Competitors across select metrics.</p>
+    </div>
+
+    <!-- <<< REVISED: Educational Section for Charts with Simple Dynamic Comments >>> -->
+    <div class="education-section">
+        <h3>Understanding the Charts</h3>
+        <div class="chart-explainer">
+            <h4>Price & Moving Averages (MAs)</h4>
+            <p>This chart shows the stock's closing price history (blue line). The orange and red dashed lines are Moving Averages (MAs), which smooth out price action to show the trend.</p>
+                <ul>
+                    <li><strong>50-Day MA (Orange):</strong> Shows the average price over the last 50 trading days (approx. 2-3 months) - indicates the shorter-term trend.</li>
+                    <li><strong>200-Day MA (Red):</strong> Shows the average price over the last 200 trading days (approx. 9-10 months) - indicates the longer-term trend.</li>
+                    <li><strong>What to look for:</strong> As a long-term investor, seeing the price consistently above the 200-day MA is often considered a positive sign of a healthy long-term uptrend. When the price dips near or below the 200-MA, it might represent a potential buying opportunity *if* the company fundamentals are still strong, but it also signals trend weakness.</li>
+                    <!-- <<< Dynamic Comment based on key_metrics >>> -->
+                    
+                        <li><strong>Current Status:</strong> The price ($98.33) is currently <strong>Below</strong> the 200-day MA ($101.06), suggesting negative or weakening long-term momentum based on this indicator.</li>
+                    
+                </ul>
+        </div>
+         <div class="chart-explainer">
+            <h4>RSI (Relative Strength Index)</h4>
+            <p>This chart helps gauge if the stock is potentially "overbought" (maybe too high, too fast) or "oversold" (maybe too low, too fast). It's a momentum indicator shown by the purple line (0-100).</p>
+                 <ul>
+                    <li><strong>Above 70 (Red Line):</strong> Often considered "Overbought". Suggests recent price gains were strong; caution might be needed as a pullback is possible. Might not be the best time to buy immediately.</li>
+                    <li><strong>Below 30 (Green Line):</strong> Often considered "Oversold". Suggests recent price drops were sharp; a bounce might be possible. Could indicate a potential entry point, especially if the drop seems overdone.</li>
+                    <li><strong>What to look for:</strong> For buying opportunities, an RSI dipping towards or below 30 (entering the green shaded area) can signal a potential short-term low, but always check company fundamentals too.</li>
+                    <!-- <<< Dynamic Comment based on key_metrics >>> -->
+                    
+                        
+                        <li><strong>Current Status:</strong> The current RSI is <strong>51.5</strong>, which is in the <strong>Neutral (30-70)</strong> zone.</li>
+                    
+                </ul>
+        </div>
+         <div class="chart-explainer">
+            <h4>Trading Volume</h4>
+             <p>Shows how many shares were traded each day (blue bars). Volume helps confirm price trends. The dashed line shows the 3-Month Average volume.</p>
+                 <ul>
+                    <li><strong>High Volume on Up Days:</strong> Suggests strong buying interest.</li>
+                    <li><strong>High Volume on Down Days:</strong> Suggests strong selling pressure.</li>
+                    <li><strong>Compare to Average:</strong> Look if recent bars are significantly taller (higher volume) or shorter (lower volume) than the dashed average line. High volume makes the price action on that day more significant.</li>
+                    <!-- Note: Dynamic comment comparing current to average volume requires passing avg vol -->
+                </ul>
+        </div>
+        <div class="chart-explainer">
+            <h4>MACD (Moving Average Convergence Divergence)</h4>
+             <p>Another momentum indicator using moving averages to show trend changes.</p>
+                 <ul>
+                    <li><strong>MACD Line (Blue) vs Signal Line (Red):</strong> When Blue crosses Above Red = Bullish signal. When Blue crosses Below Red = Bearish signal.</li>
+                    <li><strong>Histogram (Green/Red Bars):</strong> Shows difference between lines. Growing bars = strengthening momentum.</li>
+                    <li><strong>Zero Line Crossover:</strong> MACD crossing above zero = broader positive momentum shift. Below zero = negative shift.</li>
+                     <!-- Note: Dynamic comment requires passing latest MACD/Signal values -->
+                </ul>
+        </div>
+        <div class="chart-explainer">
+            <h4>Bollinger Bands®</h4>
+            <p>Shows price volatility relative to a moving average.</p>
+                 <ul>
+                    <li><strong>Wide Bands:</strong> High volatility. <strong>Narrow Bands ("Squeeze"):</strong> Low volatility (can precede a breakout).</li>
+                    <li><strong>Price vs Bands:</strong> Touching lower band = potentially oversold relative to recent volatility. Touching upper band = potentially overbought relative to recent volatility.</li>
+                     <!-- Note: Dynamic comment requires passing band values/width -->
+                </ul>
+        </div>
+         <div class="chart-explainer">
+            <h4>Quarterly Performance</h4>
+             <p>Shows reported Revenue (blue bars, left axis) and Operating Income (green line, right axis) over the past ~2 years.</p>
+                 <ul>
+                    <li><strong>Look for:</strong> Growth trends in bars (Revenue) and line (Income). Is income growing with revenue (stable/improving margins)? Any seasonality?</li>
+                     <!-- Note: Dynamic comment requires analyzing quarterly_data list -->
+                </ul>
+        </div>
+        <!-- <<< NEW: Explanation for Competitor Subplots >>> -->
+         <div class="chart-explainer">
+            <h4>Competitor Comparison Charts</h4>
+            <p>These 6 small charts compare Disney (dark blue bar) against peers on key metrics:</p>
+                 <ul>
+                    <li><strong>Market Cap:</strong> Company size based on stock price.</li>
+                    <li><strong>P/E Ratio:</strong> Valuation relative to earnings (lower often better, N/A if unprofitable).</li>
+                    <li><strong>EV/EBITDA:</strong> Valuation relative to operating earnings (lower often better).</li>
+                    <li><strong>Profit Margin (%):</strong> Profitability (higher is better).</li>
+                    <li><strong>Price to Sales:</strong> Valuation relative to revenue (lower often better).</li>
+                    <li><strong>Yearly Return (%):</strong> Recent stock performance (higher is better, but past performance doesn't guarantee future results).</li>
+                </ul>
+             <p>Quickly see if Disney is trading at a premium/discount, is more/less profitable, or has performed better/worse than competitors recently.</p>
+        </div>
+    </div>
+
+    <!-- Business Segments Section -->
+    <h2>Business Overview</h2>
+    <h3>Segment Performance</h3>
+    
+    <table>
+        <thead><tr><th>Segment</th><th>Revenue (Billions USD)</th><th>YoY Growth</th><th>Contribution</th></tr></thead>
+        <tbody>
+        
+        
+        <tr>
+            <td>Entertainment (DTC & Linear)</td>
+            <td>$40.60</td>
+            <td class="negative">-8.0%</td>
+            <td>43.9%</td>
+        </tr>
+        
+        <tr>
+            <td>Sports (ESPN)</td>
+            <td>$17.10</td>
+            <td class="negative">-0.5%</td>
+            <td>18.5%</td>
+        </tr>
+        
+        <tr>
+            <td>Experiences (Parks & Products)</td>
+            <td>$34.80</td>
+            <td class="positive">16.0%</td>
+            <td>37.6%</td>
+        </tr>
+        
+                </tbody>
+    </table>
+    <!-- <<< NEW Interpretation Note >>> -->
+    <p><strong>Interpretation:</strong> This breakdown (using illustrative data) highlights Disney's diversification. Experiences (Parks) shows strong growth (+16.0%), becoming a major revenue driver (~38%). Entertainment (including streaming & traditional TV) is the largest segment (~44%) but faces challenges (negative growth). Sports (ESPN) is relatively stable. Ideally, we want to see growth across most segments, or stabilization in declining ones alongside strong growth in others (like Experiences and potentially future streaming profitability).</p>
+<p class="note"><i>Note: Segment data shown is based on prior analysis and is illustrative. It requires manual updates from the latest official earnings reports for current accuracy.</i></p>    
+
+    <h3>Streaming Services Snapshot</h3>
+    
+     <table>
+         <thead><tr><th>Service</th><th>Subscribers (Millions)</th><th>Avg. Revenue Per User (ARPU)</th><th>YoY Sub Growth</th></tr></thead>
+         <tbody>
+         
+        <tr>
+            <td>Disney+ Core</td>
+            <td>117.6 M</td>
+            <td>$7.28</td>
+            <td class="positive">6.0%</td>
+        </tr>
+        
+        <tr>
+            <td>Hulu (SVOD Only)</td>
+            <td>50.2 M</td>
+            <td>$11.84</td>
+            <td class="positive">1.0%</td>
+        </tr>
+        
+        <tr>
+            <td>ESPN+</td>
+            <td>24.8 M</td>
+            <td>$6.30</td>
+            <td class="negative">-2.0%</td>
+        </tr>
+        
+                </tbody>
+    </table>
+     <!-- <<< NEW Interpretation Note >>> -->
+     <p><strong>Interpretation:</strong> This snapshot (using illustrative data) shows strong subscriber numbers for Disney+ Core (117.6M) and Hulu (50.2M). ARPU (Average Revenue Per User) is a key metric for profitability – higher is better. Disney+ Core's ARPU ($7.28) is lower than Hulu's ($11.84), reflecting different pricing tiers and markets. Positive subscriber growth (Disney+, Hulu) is good, but the decline for ESPN+ (-2.0%) and the overall challenge of making streaming profitable are key areas investors watch closely.</p>
+<p class="note"><i>Note: Streaming data shown is based on prior analysis and is illustrative. It requires manual updates from the latest official earnings reports for current accuracy.</i></p>    
+
+    <!-- Competitor Table Section -->
+    <h2>Competitor Comparison (Live Data)</h2>
+    
+    <table>
+        <thead><tr><th>Company</th><th>Mkt Cap (B)</th><th>Revenue (B)</th><th>Profit Margin (%)</th><th>PE Ratio</th><th>EV/EBITDA</th><th>Price/Sales</th><th>1-Yr Return (%)</th></tr></thead>
+        <tbody>
+        
+        <tr style="font-weight: bold; background-color: #e8f0fe;">
+            <td>Walt Disney Company</td>
+            <td>$177.7</td>
+            <td>$92.5</td>
+            <td>6.1%</td>
+            <td>31.9</td>
+            <td>12.0</td>
+            <td>1.92</td> 
+            
+            <td class="neutral">-0.6%</td>
+        </tr>
+        
+        <tr >
+            <td>Netflix, Inc.</td>
+            <td>$397.1</td>
+            <td>$39.0</td>
+            <td>22.3%</td>
+            <td>46.9</td>
+            <td>38.0</td>
+            <td>10.18</td> 
+            
+            <td class="positive">51.1%</td>
+        </tr>
+        
+        <tr >
+            <td>Amazon.com, Inc.</td>
+            <td>$2013.2</td>
+            <td>$638.0</td>
+            <td>9.3%</td>
+            <td>34.4</td>
+            <td>17.4</td>
+            <td>3.16</td> 
+            
+            <td class="positive">5.0%</td>
+        </tr>
+        
+        <tr >
+            <td>Comcast Corporation</td>
+            <td>$139.1</td>
+            <td>$123.7</td>
+            <td>13.1%</td>
+            <td>8.9</td>
+            <td>6.2</td>
+            <td>1.12</td> 
+            
+            <td class="negative">-10.2%</td>
+        </tr>
+        
+        <tr >
+            <td>Warner Bros. Discovery, Inc. -</td>
+            <td>$26.4</td>
+            <td>$39.3</td>
+            <td>-28.8%</td>
+            <td>nan</td>
+            <td>8.3</td>
+            <td>0.67</td> 
+            
+            <td class="positive">22.2%</td>
+        </tr>
+        
+        <tr >
+            <td>Paramount Global</td>
+            <td>$8.5</td>
+            <td>$29.2</td>
+            <td>-21.2%</td>
+            <td>nan</td>
+            <td>7.3</td>
+            <td>0.29</td> 
+            
+            <td class="positive">3.3%</td>
+        </tr>
+        
+        </tbody>
+    </table>
+    
+        </tbody>
+    </table>
+    <!-- <<< NEW Interpretation Note >>> -->
+    <p><strong>Interpretation:</strong> Comparing Disney to peers:
+        <ul>
+            <li><strong>Size (Market Cap):</strong> Disney ($ 177.7B) is large, but smaller than giants like Amazon and Netflix in market value.</li>
+            <li><strong>Valuation:</strong> Disney's P/E (31.9) and EV/EBITDA (12.0) appear more moderate than Netflix's but higher than Comcast's. Its Price/Sales (1.92) is relatively low compared to Netflix.</li>
+            <li><strong>Profitability:</strong> Disney's Profit Margin (6.1%) is positive, unlike WBD and Paramount, but significantly lower than Netflix and Comcast.</li>
+            <li><strong>Performance:</strong> Disney's 1-Year Return (-0.6%) lags behind Netflix significantly but is better than Comcast's recent performance.</li>
+        </ul>
+        This comparison helps assess if Disney is attractively valued or performing well <strong>relative</strong> to similar companies.
+    </p>
+
+    <!-- <<< NEW: Historical Financial Table from PDF >>> -->
+    <h2>Historical Financial Performance (2020-2024)</h2>
+    <p class="note">Data below based on external analysis report, using reported fiscal year end dates.</p>
+    <table>
+        <thead>
+            <tr>
+                <th>Financial Metric</th>
+                <th>FY 2020 (Oct 3)</th>
+                <th>FY 2021 (Oct 2)</th>
+                <th>FY 2022 (Oct 1)</th>
+                <th>FY 2023 (Sep 30)</th>
+                <th>FY 2024 (Sep 28, Est.)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td>Revenue (Billion USD)</td><td>65.388</td><td>67.418</td><td>82.722</td><td>88.898</td><td>91.361</td></tr>
+            <tr><td>Gross Profit (Billion USD)</td><td>21.508</td><td>22.287</td><td>28.321</td><td>29.697</td><td>32.663</td></tr>
+            <tr><td>Operating Income (Billion USD)</td><td>4.609</td><td>3.005</td><td>6.533</td><td>5.100</td><td>8.319</td></tr>
+            <tr><td>Net Income (Billion USD)</td><td>-2.442</td><td>2.536</td><td>3.553</td><td>3.390</td><td>5.773</td></tr>
+            <tr><td>Total Assets (Billion USD)</td><td>201.549</td><td>203.609</td><td>203.631</td><td>205.579</td><td>196.219</td></tr>
+            <tr><td>Total Liabilities (Billion USD)</td><td>113.286</td><td>110.598</td><td>104.752</td><td>101.622</td><td>90.697</td></tr>
+            <tr><td>Total Equity (Billion USD)</td><td>88.263</td><td>93.011</td><td>98.879</td><td>103.957</td><td>105.522</td></tr>
+            <tr><td>Net Cash from Ops (Billion USD)</td><td>7.616</td><td>5.566</td><td>6.002</td><td>9.866</td><td>13.971</td></tr>
+            <tr><td>Free Cash Flow (Billion USD)</td><td>3.594</td><td>1.988</td><td>1.059</td><td>4.897</td><td>8.559</td></tr>
+        </tbody>
+    </table>
+        </tbody>
+    </table>
+    <!-- <<< NEW Interpretation Note >>> -->
+    <p><strong>Interpretation:</strong> This historical view (based on external analysis) shows Disney's recovery post-COVID (FY2020 had a net loss). Key observations:
+        <ul>
+            <li><strong>Revenue Growth:</strong> Consistent top-line growth from $65B in FY20 to $91B in FY24 (Est.).</li>
+            <li><strong>Profitability Recovery:</strong> Net Income turned positive in FY21 and grew significantly by FY24, though Operating Income dipped in FY23 before recovering.</li>
+            <li><strong>Cash Flow Strength:</strong> Both Operating Cash Flow and Free Cash Flow (cash left after investments) show strong improvement, especially in FY23 and FY24, indicating better cash generation and financial flexibility.</li>
+            <li><strong>Balance Sheet:</strong> Total Assets have remained relatively stable, while Total Liabilities have decreased, leading to steady growth in Total Equity (the company's net worth).</li>
+        </ul>
+        Overall, the historical trend suggests a company that navigated the pandemic, returned to growth and profitability, and improved its cash flow situation significantly by FY24.
+    </p>
+
+     <!-- <<< NEW: SWOT Analysis from PDF >>> -->
+    <h2>SWOT Analysis (Strengths, Weaknesses, Opportunities, Threats)</h2>
+    <p class="note">Based on external analysis.</p>
+    <div class="flex-container">
+        <div class="metrics-box">
+            <div class="metrics-title">Strengths</div>
+            <ul class="swot-list">
+                <li><strong>Strong Brand and IP:</strong> Iconic franchises (Marvel, Star Wars, Pixar) drive revenue across segments.</li>
+                <li><strong>Diversified Revenue Streams:</strong> Resilience from multiple business segments (media, parks, products, streaming).</li>
+                <li><strong>Global Reach:</strong> Theme parks and content distribution provide exposure to international markets.</li>
+                <li><strong>Strong Cash Flow:</strong> Improved cash generation indicates financial stability and reinvestment ability.</li>
+            </ul>
+        </div>
+        <div class="metrics-box">
+            <div class="metrics-title">Weaknesses</div>
+             <ul class="swot-list">
+                <li><strong>High Operating Costs:</strong> Capital-intensive nature of theme parks and content production.</li>
+                <li><strong>Dependence on Blockbusters:</strong> Film segment success tied to performance of major movie releases.</li>
+                <li><strong>Streaming Profitability:</strong> Disney+ has yet to achieve sustained profitability.</li>
+            </ul>
+        </div>
+        <div class="metrics-box">
+            <div class="metrics-title">Opportunities</div>
+             <ul class="swot-list">
+                 <li><strong>Emerging Markets:</strong> Growth potential in middle-class populations (e.g., China, India).</li>
+                 <li><strong>Streaming Growth:</strong> Continued expansion of Disney+ and Hulu for subscribers and content.</li>
+                 <li><strong>Technological Innovations:</strong> Leveraging VR, AR, and AI to enhance offerings.</li>
+                 <li><strong>Sustainability Initiatives:</strong> Attracting environmentally conscious consumers and investors via CSR programs.</li>
+            </ul>
+        </div>
+        <div class="metrics-box">
+            <div class="metrics-title">Threats</div>
+             <ul class="swot-list">
+                 <li><strong>Intense Competition:</strong> Major media conglomerates and streaming services vie for market share.</li>
+                 <li><strong>Economic Downturns:</strong> Impact on consumer discretionary spending affecting parks and advertising.</li>
+                 <li><strong>Piracy and IP Theft:</strong> Significant threat to revenue streams.</li>
+                 <li><strong>Technological Disruption:</strong> Rapid changes requiring constant adaptation and innovation.</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- <<< NEW: Emerging Trends from PDF >>> -->
+    <h2>Emerging Industry Trends (2024-2025)</h2>
+     <ul class="trends-list">
+        <li><strong>Streaming Platforms:</strong> Dominance of OTT services (Disney+, Netflix, Prime Video) continues.</li>
+        <li><strong>Connected TV (CTV):</strong> Growing significance as an advertising platform.</li>
+        <li><strong>Artificial Intelligence (AI):</strong> Influencing content creation, personalization, and recommendations.</li>
+        <li><strong>Social Video Platforms:</strong> TikTok, Instagram Reels capturing attention, requiring engagement strategies.</li>
+        <li><strong>Immersive Content:</strong> AR, VR, and metaverse offering new audience engagement avenues.</li>
+        <li><strong>eSports and Niche Sports:</strong> Growing popularity reflecting evolving entertainment preferences.</li>
+    </ul>
+
+
+    <!-- Original Investment Thesis / Risks / Conclusion replaced by integrated sections -->
+    <!-- Remove old variables 'investment_thesis', 'risk_factors', 'catalysts', 'conclusion' from template_vars in Python if desired -->
+
+
+    <!-- Disclaimer -->
+    <div class="disclaimer">
+        <p><strong>DISCLAIMER:</strong> This report is auto-generated using quantitative data from Yahoo Finance and incorporates qualitative insights from external analysis for educational purposes. It does not constitute financial advice or a recommendation to buy or sell any stock. Data may contain errors or be subject to delays. Financial models and recommendations are based on algorithms and historical data, which may not predict future performance. Static data (e.g., Segments, Streaming, Historical Table, SWOT) requires manual verification and updates from official company reports for current accuracy. Always conduct your own thorough research and consult with a qualified financial advisor before making any investment decisions.</p>
+    </div>
+</body>
+</html>
